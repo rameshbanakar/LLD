@@ -1,5 +1,4 @@
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.*;
 
 class MyThread extends Thread{
 
@@ -18,8 +17,17 @@ class MyRunnable implements Runnable{
     }
 }
 
+class MyCallable implements Callable<Object> {
+
+    @Override
+    public Object call() {
+        return 10;
+    }
+}
+
+
 public class Main{
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException, ExecutionException {
 //        System.out.println(Thread.currentThread().getName());
 //        Thread t=new Thread(new MyThread());
 //        t.start();
@@ -29,17 +37,20 @@ public class Main{
 //        th.start();
 
         ExecutorService executorService= Executors.newCachedThreadPool();
-        Runnable run=new MyRunnable();
-        for(int i=0;i<1000;i++){
-            executorService.execute(run);
-        }
+//        Runnable run=new MyRunnable();
+//        for(int i=0;i<1000;i++){
+//            executorService.execute(run);
+//        }
+
+
+        Callable<?> cl=new MyCallable();
+        Future<?> future=executorService.submit(cl);
+        Object val=future.get();
+        System.out.println(val);
         executorService.shutdown();
 
-
-
-
-
-
+        int cores=Runtime.getRuntime().availableProcessors();
+        System.out.println(cores);
 
 
     }
