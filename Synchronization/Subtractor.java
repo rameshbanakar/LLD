@@ -12,15 +12,13 @@ public class Subtractor implements Callable<Void> {
     }
 
     @Override
-    public Void call() throws Exception {
+    public synchronized Void call() throws Exception {
 //        this.lock.lock();
             for(int i=0;i<100;i++) {
-                synchronized (value) {
+
                     System.out.println("substracting");
                     this.value.x -= 1;
                 }
-            }
-
 
 //        this.lock.unlock();
         return null;

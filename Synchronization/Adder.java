@@ -12,7 +12,7 @@ public class Adder implements Callable<Void> {
     }
 
     @Override
-    public Void call() throws Exception {
+    public synchronized Void call() throws Exception {
 //        this.lock.lock();
             for (int i = 0; i < 100; i++) {
                 synchronized (value){
